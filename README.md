@@ -17,7 +17,7 @@
 
 ###  Clona el repositorio desde GitHub:
 
-git clone https://github.com/dgguzmangr/product_manager.git
+git clone https://github.com/dgguzmangr/warehouse_manager.git
 
 ### Crea y activa un entorno virtual:
 
