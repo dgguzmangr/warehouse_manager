@@ -6,7 +6,8 @@ class BuildingSerializer(serializers.ModelSerializer):
         model = Building
         fields = [
             'building_id',
-            'name'
+            'name',
+            'location'
         ]
 
         read_only_fields = [

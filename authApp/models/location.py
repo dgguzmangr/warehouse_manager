@@ -1,5 +1,4 @@
 from django.db import models
-from .building import Building
 
 class Location(models.Model):
     AREAS = [
@@ -28,7 +27,6 @@ class Location(models.Model):
     weight = models.DecimalField('Weight', max_digits=10, decimal_places=3, blank=False, null=False)
     volume = models.DecimalField('Volume', max_digits=10, decimal_places=3, blank=True, null=True)
     description = models.CharField('Description', max_length=250, blank=False, null=True)
-    building = models.ForeignKey(Building, on_delete=models.CASCADE, related_name='location')
 
     def save(self, *args, **kwargs):
         self.volume = self.long * self.high * self.width

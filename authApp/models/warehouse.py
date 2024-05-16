@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.gis.db import models
+from .building import Building
 
 class Warehouse(models.Model):
     warehouse_id = models.AutoField(primary_key=True)
@@ -11,6 +12,7 @@ class Warehouse(models.Model):
     address = models.CharField('Address', max_length=200, blank=False, null=False)
     postal_code = models.CharField('Postal code', max_length=20, blank=False, null=False)
     location = models.PointField('Location', blank=True, null=True)
+    building = models.ForeignKey(Building, on_delete=models.CASCADE, related_name='warehouse')
 
     class Meta:
         app_label = 'authApp'

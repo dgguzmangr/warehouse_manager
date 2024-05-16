@@ -62,8 +62,13 @@ def show_warehouse_buildings(request, pk):
         warehouse = Warehouse.objects.get(pk=pk)
     except Warehouse.DoesNotExist:
         return Response({"error": "Warehouse not found"}, status=status.HTTP_404_NOT_FOUND)
-    buildings = Building.objects.filter(warehouse=warehouse)
-    serializer = BuildingSerializer(buildings, many=True)
+
+    try:
+        building = Building.objects.get(warehouse=warehouse)
+    except Building.DoesNotExist:
+        return Response({"error": "Building not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = BuildingSerializer(building)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 # Building API
@@ -114,10 +119,14 @@ def show_building_locations(request, pk):
         building = Building.objects.get(pk=pk)
     except Building.DoesNotExist:
         return Response({"error": "Building not found"}, status=status.HTTP_404_NOT_FOUND)
-    locations = Location.objects.filter(building=building)
-    serializer = LocationSerializer(locations, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
 
+    try:
+        location = Location.objects.get(building=building)
+    except Location.DoesNotExist:
+        return Response({"error": "Location not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = LocationSerializer(building)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 # Location API
 

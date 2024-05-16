@@ -12,8 +12,7 @@ class LocationSerializer(serializers.ModelSerializer):
             'width', 
             'weight', 
             'volume',
-            'description',
-            'building'
+            'description'
         ]
         read_only_fields = [
             'location_id',
