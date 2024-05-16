@@ -56,10 +56,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    # 'rest_framework.authtoken', #comentar para deshabilitar seguridad
+    'rest_framework.authtoken', #comentar para deshabilitar seguridad
     'authApp',
     'drf_yasg',
     'corsheaders',
+    'django.contrib.gis'
 ]
 
 
@@ -121,7 +122,7 @@ WSGI_APPLICATION = 'authProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': config('db_name'),
         'USER': config('user_db'),
         'PASSWORD': config('password'),

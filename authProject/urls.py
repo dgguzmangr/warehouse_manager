@@ -15,8 +15,45 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+# from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView) # comentar par deshabilitar seguridad
+from rest_framework.authtoken import views
+from authApp.views import appView
+# from authApp.views import businessModelView
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="API Documentation",
+        default_version='v1',
+        description="API for Product Manager",
+        contact=openapi.Contact(email="dgguzmangr@gmail.com"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+
+    # warehouse urls
+    path('show-warehouses/', appView.show_warehouses),
+    path('create-warehouses/', appView.create_warehouse),
+    path('update-warehouse/<int:pk>/', appView.update_warehouse),
+    path('delete-warehouse/<int:pk>/', appView.delete_warehouse),
+
+    # token
+    path('generate_token/', views.obtain_auth_token),
+
+    #login
+    path('login/', appView.login),
 ]
+
+# http://localhost:8000/swagger/
