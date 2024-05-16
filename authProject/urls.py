@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 # from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView) # comentar par deshabilitar seguridad
 from rest_framework.authtoken import views
 from authApp.views import appView
-# from authApp.views import businessModelView
+from authApp.views import businessModelView
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -62,6 +62,9 @@ urlpatterns = [
     path('create-location/', appView.create_location),
     path('update-location/<int:pk>/', appView.update_location),
     path('delete-location/<int:pk>/', appView.delete_location),
+
+    # Business Model url
+    path('field-structure-view/', businessModelView.field_structure_view),
 
     # token
     path('generate_token/', views.obtain_auth_token),
