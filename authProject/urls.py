@@ -55,6 +55,13 @@ urlpatterns = [
     path('create-building/', appView.create_building),
     path('update-building/<int:pk>/', appView.update_building),
     path('delete-building/<int:pk>/', appView.delete_building),
+    path('show-building-locations/<int:pk>/', appView.show_building_locations),
+
+    # location urls
+    path('show-locations/', appView.show_locations),
+    path('create-location/', appView.create_location),
+    path('update-location/<int:pk>/', appView.update_location),
+    path('delete-location/<int:pk>/', appView.delete_location),
 
     # token
     path('generate_token/', views.obtain_auth_token),

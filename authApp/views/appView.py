@@ -4,8 +4,10 @@ from rest_framework import status
 
 from authApp.models.warehouse import Warehouse
 from authApp.models.building import Building
+from authApp.models.location import Location
 from authApp.serializers.warehouseSerializer import WarehouseSerializer
 from authApp.serializers.buildingSerializer import BuildingSerializer
+from authApp.serializers.locationSerializer import LocationSerializer
 
 from rest_framework.authtoken.models import Token # comentar par deshabilitar seguridad
 from django.contrib.auth.forms import AuthenticationForm # comentar par deshabilitar seguridad
@@ -104,6 +106,59 @@ def delete_building(request, pk):
         return Response({"error": "Building not found"}, status=status.HTTP_404_NOT_FOUND)
     if request.method == 'DELETE':
         building.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+def show_building_locations(request, pk):
+    try:
+        building = Building.objects.get(pk=pk)
+    except Building.DoesNotExist:
+        return Response({"error": "Building not found"}, status=status.HTTP_404_NOT_FOUND)
+    locations = Location.objects.filter(building=building)
+    serializer = LocationSerializer(locations, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# Location API
+
+@api_view(['GET'])
+def show_locations(request):
+    if request.method == 'GET':
+        location = Location.objects.all()
+        serializer = LocationSerializer(location, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def create_location(request):
+    if request.method == 'POST':
+        serializer = LocationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+def update_location(request, pk):
+    try:
+        location = Location.objects.get(pk=pk)
+    except Building.DoesNotExist:
+        return Response({"error": "LOcation not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        serializer = LocationSerializer(location, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def delete_location(request, pk):
+    try:
+        location = LocationSerializer.objects.get(pk=pk)
+    except Location.DoesNotExist:
+        return Response({"error": "Location not found"}, status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'DELETE':
+        location.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # Login API
