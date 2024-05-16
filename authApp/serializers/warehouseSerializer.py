@@ -13,10 +13,13 @@ class WarehouseSerializer(serializers.ModelSerializer):
             'neighborthood',
             'address',
             'postal_code',
-            'location'
+            'location',
+            'building',
         ]
+
         read_only_fields = [
             'warehouse_id',
+            'building'
         ]
 
         def validate(self, data):
@@ -32,6 +35,8 @@ class WarehouseSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("The 'address' field cannot exceed 200 characters.")
             if len(data.get('posta_code', '')) > 20:
                 raise serializers.ValidationError("The 'postal code' field cannot exceed 20 characters.")
+            buildings = data.get('buildings', [])
+            for building in buildings:
+                if building.warehouses.exclude(id=self.instance.id if self.instance else None).exists():
+                    raise serializers.ValidationError(f"The building '{building}' is already assigned to another warehouse.")
             return data
-        
-        

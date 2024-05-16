@@ -1,1 +1,2 @@
 from authApp.serializers.warehouseSerializer import WarehouseSerializer
+from authApp.serializers.buildingSerializer import BuildingSerializer

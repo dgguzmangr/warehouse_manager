@@ -30,7 +30,7 @@ schema_view = get_schema_view(
     openapi.Info(
         title="API Documentation",
         default_version='v1',
-        description="API for Product Manager",
+        description="API for Warehouse Manager",
         contact=openapi.Contact(email="dgguzmangr@gmail.com"),
         license=openapi.License(name="BSD License"),
     ),
@@ -45,9 +45,16 @@ urlpatterns = [
 
     # warehouse urls
     path('show-warehouses/', appView.show_warehouses),
-    path('create-warehouses/', appView.create_warehouse),
+    path('create-warehouse/', appView.create_warehouse),
     path('update-warehouse/<int:pk>/', appView.update_warehouse),
     path('delete-warehouse/<int:pk>/', appView.delete_warehouse),
+    path('show-warehouse-buildings/<int:pk>/', appView.show_warehouse_buildings),
+
+    # building urls
+    path('show-buildings/', appView.show_buildings),
+    path('create-building/', appView.create_building),
+    path('update-building/<int:pk>/', appView.update_building),
+    path('delete-building/<int:pk>/', appView.delete_building),
 
     # token
     path('generate_token/', views.obtain_auth_token),
