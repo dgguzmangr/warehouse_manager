@@ -5,7 +5,17 @@ from authApp.serializers import WarehouseSerializer, BuildingSerializer, Locatio
 from rest_framework.authtoken.models import Token # comentar par deshabilitar seguridad
 from django.contrib.auth.forms import AuthenticationForm # comentar par deshabilitar seguridad
 from django.contrib.auth import login as auth_login # comentar par deshabilitar seguridad
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
+@swagger_auto_schema(method='get', responses={200: openapi.Response('Field structure', openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'warehouse': openapi.Schema(type=openapi.TYPE_OBJECT),
+        'building': openapi.Schema(type=openapi.TYPE_OBJECT),
+        'location': openapi.Schema(type=openapi.TYPE_OBJECT)
+    }
+))}, tags=['Field structure view'])
 @api_view(['GET'])
 def field_structure_view(request):
     warehouse_serializer = WarehouseSerializer()
