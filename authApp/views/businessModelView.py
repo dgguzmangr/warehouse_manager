@@ -8,6 +8,10 @@ from django.contrib.auth import login as auth_login # comentar par deshabilitar 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+
 @swagger_auto_schema(method='get', responses={200: openapi.Response('Field structure', openapi.Schema(
     type=openapi.TYPE_OBJECT,
     properties={
@@ -17,7 +21,9 @@ from drf_yasg import openapi
     }
 ))}, tags=['Field structure view'])
 @api_view(['GET'])
-def field_structure_view(request):
+@permission_classes([])  # Ajustar según sea necesario
+@authentication_classes([])  # Ajustar según sea necesario
+def warehouses_field_structure_view(request):
     warehouse_serializer = WarehouseSerializer()
     building_serializer = BuildingSerializer()
     location_serializer = LocationSerializer()

@@ -26,6 +26,7 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.views import obtain_auth_token
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -48,15 +49,16 @@ urlpatterns = [
     path('show-warehouses/', appView.show_warehouses, name='List all created warehouses'),
     path('create-warehouse/', appView.create_warehouse, name='Create a new warehouse'),
     path('update-warehouse/<int:pk>/', appView.update_warehouse, name='Update a selected warehouse'),
-    path('patial-update-warehouse/<int:pk>/', appView.partial_update_warehouse, name='Update a selected attribute for a warehouse'),
+    path('partial-update-warehouse/<int:pk>/', appView.partial_update_warehouse, name='Update a selected attribute for a warehouse'),
     path('delete-warehouse/<int:pk>/', appView.delete_warehouse, name='Delete a selected warehouse'),
     path('show-warehouse-buildings/<int:pk>/', appView.show_warehouse_buildings, name='List all buildings by warehouse'),
+    path('get-warehouse-structure/', appView.get_warehouse_structure, name='get_warehouse_structure'),
 
     # building urls
     path('show-buildings/', appView.show_buildings, name='List all created buildings'),
     path('create-building/', appView.create_building, name='Create a new building'),
     path('update-building/<int:pk>/', appView.update_building, name='Update a selected building'),
-    path('patial-update-building/<int:pk>/', appView.partial_update_building, name='Update a selected attribute for a building'),
+    path('partial-update-building/<int:pk>/', appView.partial_update_building, name='Update a selected attribute for a building'),
     path('delete-building/<int:pk>/', appView.delete_building, name='Delete a selected building'),
     path('show-building-locations/<int:pk>/', appView.show_building_locations, name='List all locations by building'),
 
@@ -64,14 +66,15 @@ urlpatterns = [
     path('show-locations/', appView.show_locations, name='List all created locations'),
     path('create-location/', appView.create_location, name='Create a new location'),
     path('update-location/<int:pk>/', appView.update_location, name='Update a selected location'),
-    path('patial-update-location/<int:pk>/', appView.partial_update_location, name='Update a selected attribute for a location'),
+    path('partial-update-location/<int:pk>/', appView.partial_update_location, name='Update a selected attribute for a location'),
     path('delete-location/<int:pk>/', appView.delete_location, name='Delete a selected location'),
 
     # Business Model url
-    path('field-structure-view/', businessModelView.field_structure_view, name='Generate a json structure for all models'),
+    path('warehouse-manager-field-structure/', businessModelView.warehouses_field_structure_view, name='Generate a json structure for all models'),
 
     # token
     path('generate_token/', views.obtain_auth_token),
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 
     #login
     path('login/', appView.login),

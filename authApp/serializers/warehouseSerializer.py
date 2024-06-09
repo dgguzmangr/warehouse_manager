@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from authApp.models.warehouse import Warehouse
+from authApp.models.building import Building
 
 class WarehouseSerializer(serializers.ModelSerializer):
+    building = serializers.PrimaryKeyRelatedField(queryset=Building.objects.all(), required=True)
     class Meta:
         model = Warehouse
         fields = [
