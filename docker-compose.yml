@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${db_name}
+      POSTGRES_USER: ${user_db}
+      POSTGRES_PASSWORD: ${password}
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+  web:
+    build: .
+    command: gunicorn --bind 0.0.0.0:8001 authProject.wsgi:application
+    volumes:
+      - .:/warehouse_manager
+    ports:
+      - "8001:8000"
+    depends_on:
+      - db
+    environment:
+      - DB_NAME=${db_name}
+      - DB_USER=${user_db}
+      - DB_PASSWORD=${password}
+      - DB_HOST=${db_host}
+      - DB_PORT=${db_port}
+      - SECRET_KEY=${secret_key}
+      - DEBUG=${DEBUG}
+      - SERVICE_USER_TOKEN=${SERVICE_USER_TOKEN}
+      # - URL_PRODUCT_MANAGER=${URL_PRODUCT_MANAGER}
+
+volumes:
+  postgres_data:
+
+    # PARA SABER EN QUÉ URL SE EJECUTA
+    # docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' warehouse_manager-web-1
+
+    # PARA EJECUTAR COMANDOS DE DJANGO DENTRO DEL CONTENEDOR DE DOCKER
+    # docker-compose exec web bash
+
