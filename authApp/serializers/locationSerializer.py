@@ -19,9 +19,15 @@ class LocationSerializer(serializers.ModelSerializer):
             'volume'
             ]
         
-        def validate(self, data):
-            if data.get('long') <= 0 or data.get('high') <= 0 or data.get('width') <= 0:
-                raise serializers.ValidationError("The long, high and width values must be positive.")
-            if len(data.get('description', '')) > 250:
-                raise serializers.ValidationError("The 'name' field cannot exceed 100 characters.")
-            return data
+    def validate(self, data):
+        if len(data.get('description', '')) > 250:
+            raise serializers.ValidationError("The 'name' field cannot exceed 100 characters.")
+        if data.get('long', 1) <= 0:
+            raise serializers.ValidationError({"long": "Long must be a positive number."})
+        if data.get('high', 1) <= 0:
+            raise serializers.ValidationError({"high": "High must be a positive number."})
+        if data.get('width', 1) <= 0:
+            raise serializers.ValidationError({"width": "Width must be a positive number."})
+        if data.get('weight', 1) <= 0:
+            raise serializers.ValidationError({"weight": "Weight must be a positive number."})
+        return data

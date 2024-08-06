@@ -252,14 +252,14 @@ def create_location(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@swagger_auto_schema(method='put', request_body=LocationSerializer, responses={200: LocationSerializer}, tags=['Location'])
+@swagger_auto_schema(method='put', request_body=LocationSerializer, responses={200: LocationSerializer, 404: 'Location not found'}, tags=['Location'])
 @api_view(['PUT'])
 @permission_classes([])  # Comentar o modificar según sea necesario para producción
 @authentication_classes([])  # Comentar o modificar según sea necesario para producción
 def update_location(request, pk):
     try:
         location = Location.objects.get(pk=pk)
-    except Building.DoesNotExist:
+    except Location.DoesNotExist:
         return Response({"error": "Location not found"}, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'PUT':
@@ -268,6 +268,7 @@ def update_location(request, pk):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @swagger_auto_schema(method='patch', request_body=LocationSerializer, responses={200: LocationSerializer}, tags=['Location'])
 @api_view(['PATCH'])
@@ -332,6 +333,7 @@ def delete_location(request, pk):
     },
     tags=['Authentication']
 )
+
 @api_view(['POST'])
 @permission_classes([])  # Comentar o modificar según sea necesario para producción
 @authentication_classes([])  # Comentar o modificar según sea necesario para producción
